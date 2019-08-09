@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0
+        }
+    </style>
+</head>
+
+<body>
+    <img src="time.jpg" id="img" alt="" style="display:none">
+    <canvas id="myCanvas" width="600" height="600"></canvas>
+
+    <script>
+        var img = document.getElementById("img");
+        var c = document.getElementById("myCanvas");
+
+        var context = c.getContext("2d");
+
+
+        function clock() {
+
+
+            // 清空上一次画的图形
+            context.clearRect(0, 0, 600, 600);
+
+            context.save();
+            context.beginPath();
+           context.drawImage(img, 104, 104, 400, 430);
+            context.closePath();
+            context.restore();
+            
+
+            var time = new Date();
+            //秒
+            var s = time.getSeconds();
+            // 分
+            var m = time.getMinutes();
+            // 时
+            var h = time.getHours();
+            // 把分的弧度加到小时里
+            h = h +  m * (Math.PI / 180);
+            // 24小时转12小时
+            h = h > 12 ? h - 12 : h;
+
+            // 异空间
+            //保存各自的路径，通过原点，层叠在一起
+
+            // 表盘
+            // context.save();
+            // context.beginPath();
+            // context.lineWidth = 10;
+            // context.strokeStyle = '#000';
+            // // 更改原点
+            // context.translate(300, 300);
+            // context.arc(0, 0, 200, Math.PI / 180 * 0, Math.PI / 180 * 360);
+            // context.stroke();
+            // context.closePath();
+            // context.restore();
+            // 秒 刻度
+            // for (let index = 0; index < 60; index++) {
+            //     context.save();
+            //     context.beginPath();
+            //     context.lineWidth = 2;
+            //     context.strokeStyle = '#000';
+            //     context.translate(300, 300);
+            //     context.rotate((Math.PI / 180) * (6 * index));
+            //     context.moveTo(0, 185);
+            //     context.lineTo(0, 195);
+            //     context.stroke();
+            //     context.closePath();
+            //     context.restore();
+            // }
+
+            // 时 刻度
+            // for (let index = 0; index < 12; index++) {
+            //     context.save();
+            //     context.beginPath();
+            //     context.lineWidth = 8;
+            //     context.strokeStyle = '#000';
+            //     context.translate(300, 300);
+            //     context.rotate((Math.PI / 180) * (30 * index));
+            //     context.moveTo(0, 175);
+            //     context.lineTo(0, 195);
+            //     context.stroke();
+            //     context.closePath();
+            //     context.restore();
+            // }
+            // 分 针
+            context.save();
+            context.beginPath();
+            context.translate(300, 300);
+            context.lineWidth = 5;
+            context.strokeStyle = '#000';
+            context.rotate((Math.PI / 180) * (m * 6));
+            context.moveTo(0, 20);
+            context.lineTo(0, -120);
+            context.stroke();
+            context.closePath();
+            context.restore();
+
+            //时 针
+            context.save();
+            context.beginPath();
+            context.translate(300, 300);
+            context.lineWidth = 9;
+            context.strokeStyle = '#1a1943';
+            context.rotate((Math.PI / 180) * (h * 30));
+            context.moveTo(0, 20);
+            context.lineTo(0, -100);
+            context.stroke();
+            context.closePath();
+            context.restore();
+            // 秒 针
+            context.save();
+            context.beginPath();
+            context.translate(300, 300);
+            context.lineWidth = 2;
+            context.strokeStyle = 'red';
+            context.rotate((Math.PI / 180) * (s * 6));
+            context.moveTo(0, 30);
+            context.lineTo(0, -150);
+            context.stroke();
+            context.closePath();
+            context.restore();
+
+            // 按钮
+            context.save();
+            context.beginPath();
+            context.fillStyle='blue';
+            context.translate(300, 300);
+            context.arc(0, 0, 5, Math.PI / 180 * 0, Math.PI / 180 * 360);
+            context.fill();
+            context.closePath();
+            context.restore();
+
+        }
+
+
+        setInterval(clock, 1000);
+
+
+    </script>
+
+</body>
+
+</html>
